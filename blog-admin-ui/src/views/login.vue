@@ -10,12 +10,14 @@
       <el-form-item prop="password">
         <el-input
           v-model="loginForm.password"
-          type="password"
+          :type="isPasswordView ? 'test' : 'password'"
           auto-complete="off"
           placeholder="密码"
           @keyup.enter.native="handleLogin"
         >
           <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
+          <svg-icon slot="suffix" :icon-class="isPasswordView ? 'is-view' : 'view'"
+            class="el-input__icon input-icon password-icon" @click="passwordView" />
         </el-input>
       </el-form-item>
       <el-form-item prop="code">
@@ -82,7 +84,8 @@ export default {
         code: [{ required: true, trigger: "change", message: "验证码不能为空" }]
       },
       loading: false,
-      redirect: undefined
+      redirect: undefined,
+      isPasswordView: false
     };
   },
   watch: {
@@ -138,6 +141,13 @@ export default {
             });
         }
       });
+    },
+    /** 密码显示 */
+    passwordView() {
+      this.isPasswordView = !this.isPasswordView
+      if (this.isPasswordView) {
+        this.msgWarn("密码一直处于加密状态")
+      }
     }
   }
 };
@@ -190,11 +200,13 @@ export default {
     width: 14px;
     margin-left: 2px;
   }
-
   .el-checkbox__input.is-checked + .el-checkbox__label {
     color: #303133;
   }
-
+  .el-input__suffix .password-icon {
+    width: 18px;
+    cursor: pointer;
+  }
   .el-form-item__content button,
   .login-code img {
     box-shadow: 0 2px 6px rgba(0,0,0,.1);
