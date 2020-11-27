@@ -184,6 +184,12 @@ export default {
   }
 }
 
+@media screen and (max-width: 860px) {
+  .login {
+    background-image: url("../assets/image/move-login-background.jpg");
+  }
+}
+
 .login-form {
   border-radius: 6px;
   width: 400px;
@@ -201,7 +207,7 @@ export default {
     margin-left: 2px;
   }
   .el-checkbox__input.is-checked + .el-checkbox__label {
-    color: #303133;
+    color: #FFFFFF;
   }
   .el-input__suffix .password-icon {
     width: 18px;
