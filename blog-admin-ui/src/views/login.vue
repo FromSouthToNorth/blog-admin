@@ -32,7 +32,7 @@
           <img :src="codeUrl" @click="getCode" class="login-code-img"/>
         </div>
       </el-form-item>
-      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
+      <el-checkbox v-model="loginForm.rememberMe" style="margin:0 0 25px 0;">记住密码</el-checkbox>
       <el-form-item style="width:100%;">
         <el-button
           :loading="loading"
@@ -40,7 +40,6 @@
           type="primary"
           style="width:100%;
           border: none;
-          box-shadow: 0 2px 6px rgba(0,0,0,.1);
           background: #448bff linear-gradient(45deg,#448bff,#44e9ff);"
           @click.native.prevent="handleLogin"
         >
@@ -159,6 +158,22 @@ export default {
   color: #303133;
 }
 
+@media screen and (max-width: 1600px) {
+  .login {
+    .login-form {
+      .title {
+        color: #FFFFFF;
+      }
+      .el-checkbox {
+        color: #909399;
+      }
+      .el-checkbox__input.is-checked + .el-checkbox__label {
+        color: #FFFFFF;
+      }
+    }
+  }
+}
+
 .login-form {
   border-radius: 6px;
   width: 400px;
@@ -167,12 +182,22 @@ export default {
     height: 38px;
     input {
       height: 38px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.1);
     }
   }
   .input-icon {
     height: 39px;
     width: 14px;
     margin-left: 2px;
+  }
+
+  .el-checkbox__input.is-checked + .el-checkbox__label {
+    color: #303133;
+  }
+
+  .el-form-item__content button,
+  .login-code img {
+    box-shadow: 0 2px 6px rgba(0,0,0,.1);
   }
 }
 .login-tip {
