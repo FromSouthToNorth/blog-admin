@@ -168,8 +168,9 @@ export default {
   color: #303133;
 }
 
-@media screen and (max-width: 1600px) {
+@media screen and (max-width: 760px) {
   .login {
+    background-image: url("../assets/image/move-login-background.jpg");
     .login-form {
       .title {
         color: #FFFFFF;
@@ -181,12 +182,6 @@ export default {
         color: #FFFFFF;
       }
     }
-  }
-}
-
-@media screen and (max-width: 860px) {
-  .login {
-    background-image: url("../assets/image/move-login-background.jpg");
   }
 }
 
