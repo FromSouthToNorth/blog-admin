@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.hyzt.system.mapper.SysTagMapper">
+    
+    <resultMap type="SysTag" id="SysTagResult">
+        <result property="tagId"        column="tag_id"      />
+        <result property="tagName"      column="tag_name"    />
+        <result property="delFlag"      column="del_flag"    />
+        <result property="createBy"     column="create_by"   />
+        <result property="createTime"   column="create_time" />
+        <result property="updateBy"     column="update_by"   />
+        <result property="updateTime"   column="update_time" />
+    </resultMap>
+
+    <sql id="selectSysTagVo">
+        select tag.tag_id, tag.tag_name, tag.del_flag, tag.create_by, tag.create_time, tag.update_by, tag.update_time
+        from sys_tag tag
+    </sql>
+
+    <select id="selectTagList" parameterType="SysTag" resultMap="SysTagResult">
+        <include refid="selectSysTagVo"/>
+        where tag.del_flag = '0'
+        <if test="tagName != null  and tagName != ''">
+            and tag_name like concat('%', #{tagName}, '%')
+        </if>
+        <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+            and date_format(tag.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+        </if>
+        <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+            and date_format(tag.create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+        </if>
+    </select>
+
+    <select id="selectTagAll" resultMap="SysTagResult">
+        <include refid="selectSysTagVo"/>
+    </select>
+
+    <select id="selectTagById" parameterType="Long" resultMap="SysTagResult">
+        <include refid="selectSysTagVo"/>
+        where tag.tag_id = #{tagId}
+    </select>
+
+    <select id="checkTagNameUnique" parameterType="String" resultMap="SysTagResult">
+        <include refid="selectSysTagVo"/>
+        where tag.del_flag = '0' and tag.tag_name = #{tagName} limit 1
+    </select>
+        
+    <insert id="insertTag" parameterType="SysTag" useGeneratedKeys="true" keyProperty="tagId">
+        insert into sys_tag (
+            <if test="tagName != null and tagName != ''">tag_name,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        ) values (
+            <if test="tagName != null and tagName != ''">#{tagName},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        )
+    </insert>
+
+    <update id="updateTag" parameterType="SysTag">
+        update sys_tag
+        <set>
+            <if test="tagName != null and tagName != ''">tag_name = #{tagName},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </set>
+        where tag_id = #{tagId}
+    </update>
+
+    <delete id="deleteTagById" parameterType="Long">
+        delete from sys_tag where tag_id = #{tagId}
+    </delete>
+
+    <update id="deleteTagByIds" parameterType="String">
+        update sys_tag set del_flag = '2' where tag_id in
+        <foreach item="tagId" collection="array" open="(" separator="," close=")">
+            #{tagId}
+        </foreach>
+    </update>
+    
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.hyzt.system.mapper.SysBlogTagMapper">
+    
+    <resultMap type="SysBlogTag" id="SysBlogTagResult">
+        <result property="blogId"   column="blog_id" />
+        <result property="tagId"    column="tag_id"  />
+    </resultMap>
+
+    <select id="countBlogTagByTagId" parameterType="Long" resultType="int">
+        select count(1) from sys_blog_tag where tag_id = #{tagId}
+    </select>
+
+</mapper>

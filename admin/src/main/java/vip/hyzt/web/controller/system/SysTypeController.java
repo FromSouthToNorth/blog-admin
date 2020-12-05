@@ -33,7 +33,7 @@ public class SysTypeController extends BaseController
     /**
      * 获取类型列表
      */
-    @PreAuthorize("@ss.hasAnyPermi('system:type:list')")
+    @PreAuthorize("@ss.hasPermi('system:type:list')")
     @GetMapping("/list")
     public AjaxResult list(SysType type)
     {
@@ -44,7 +44,7 @@ public class SysTypeController extends BaseController
     /**
      * 查询类型列表（排除节点）
      */
-    @PreAuthorize("@ss.hasAnyPermi('system:type:list')")
+    @PreAuthorize("@ss.hasPermi('system:type:list')")
     @GetMapping("/list/exclude/{typeId}")
     public AjaxResult excludeChild(@PathVariable(value = "typeId", required = false) Long typeId)
     {
@@ -64,7 +64,7 @@ public class SysTypeController extends BaseController
     /**
      * 根据类型编号获取详细信息
      */
-    @PreAuthorize("@ss.hasAnyPermi('system:type:query')")
+    @PreAuthorize("@ss.hasPermi('system:type:query')")
     @GetMapping(value = "/{typeId}")
     public AjaxResult getInfo(@PathVariable Long typeId)
     {
@@ -84,7 +84,7 @@ public class SysTypeController extends BaseController
     /**
      * 新增类型
      */
-    @PreAuthorize("@ss.hasAnyPermi('system:type:add')")
+    @PreAuthorize("@ss.hasPermi('system:type:add')")
     @Log(title = "博客类型管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysType type)
@@ -100,7 +100,7 @@ public class SysTypeController extends BaseController
     /**
      * 修改博客类型
      */
-    @PreAuthorize("@ss.hasAnyPermi('system:type:edit')")
+    @PreAuthorize("@ss.hasPermi('system:type:edit')")
     @Log(title = "博客类型管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysType type)

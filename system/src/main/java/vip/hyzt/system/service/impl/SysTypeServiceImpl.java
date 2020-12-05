@@ -154,10 +154,10 @@ public class SysTypeServiceImpl implements ISysTypeService
     @Override
     public String checkTypeNameUnique(SysType type)
     {
-        long typeId = StringUtils.isNull(type.getTypeId()) ? -1L : type.getTypeId();
+        Long typeId = StringUtils.isNull(type.getTypeId()) ? -1L : type.getTypeId();
         type.setParentId(StringUtils.isNull(type.getParentId()) ? Long.valueOf(UserConstants.PARENT) : type.getParentId());
         SysType info = typeMapper.checkTypeNameUnique(type.getTypeName(), type.getParentId());
-        if (StringUtils.isNotNull(info) && !info.getTypeId().equals(typeId))
+        if (StringUtils.isNotNull(info) && info.getTypeId().longValue() != typeId.longValue())
         {
             return UserConstants.NOT_UNIQUE;
         }

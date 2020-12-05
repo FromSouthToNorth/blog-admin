@@ -43,7 +43,6 @@
       v-loading="loading"
       :data="typeList"
       row-key="typeId"
-      default-expand-all
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
       <el-table-column prop="typeName" label="博客类型名称" width="260"></el-table-column>
