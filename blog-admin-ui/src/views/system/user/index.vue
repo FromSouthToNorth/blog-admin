@@ -410,7 +410,6 @@ export default {
           this.userList = response.rows;
           this.total = response.total;
           this.loading = false;
-          console.log(this.userList)
         }
       );
     },

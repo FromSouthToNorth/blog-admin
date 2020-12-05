@@ -24,11 +24,11 @@ public class UserConstants
     /** 角色封禁状态 */
     public static final String ROLE_DISABLE = "1";
 
-    /** 部门正常状态 */
-    public static final String DEPT_NORMAL = "0";
+    /** 类型正常状态 */
+    public static final String TYPE_NORMAL = "0";
 
-    /** 部门停用状态 */
-    public static final String DEPT_DISABLE = "1";
+    /** 类型停用状态 */
+    public static final String TYPE_DISABLE = "1";
 
     /** 字典正常状态 */
     public static final String DICT_NORMAL = "0";
@@ -53,6 +53,9 @@ public class UserConstants
 
     /** Layout组件标识 */
     public final static String LAYOUT = "Layout";
+
+    /** 父级标识 */
+    public final static String PARENT = "0";
 
     /** 校验返回结果码 */
     public final static String UNIQUE = "0";

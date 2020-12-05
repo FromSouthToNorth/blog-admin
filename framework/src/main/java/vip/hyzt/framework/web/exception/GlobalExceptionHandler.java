@@ -4,7 +4,7 @@ import vip.hyzt.common.constant.HttpStatus;
 import vip.hyzt.common.core.domain.AjaxResult;
 import vip.hyzt.common.exception.BaseException;
 import vip.hyzt.common.exception.CustomException;
-import vip.hyzt.common.exception.DemoModeException;
+import vip.hyzt.common.exception.HyZtModeException;
 import vip.hyzt.common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,8 +108,8 @@ public class GlobalExceptionHandler
     /**
      * 演示模式异常
      */
-    @ExceptionHandler(DemoModeException.class)
-    public AjaxResult demoModeException(DemoModeException e)
+    @ExceptionHandler(HyZtModeException.class)
+    public AjaxResult hyZtModeException(HyZtModeException e)
     {
         return AjaxResult.error("演示模式，不允许操作");
     }

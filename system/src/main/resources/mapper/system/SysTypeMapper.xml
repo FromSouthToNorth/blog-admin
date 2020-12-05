@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.hyzt.system.mapper.SysTypeMapper">
+    
+    <resultMap type="SysType" id="SysTypeResult">
+        <result property="typeId"       column="type_id"     />
+        <result property="typeName"     column="type_name"   />
+        <result property="orderNum"     column="order_num"   />
+        <result property="parentId"     column="parent_id"   />
+        <result property="ancestors"    column="ancestors"   />
+        <result property="status"       column="status"      />
+        <result property="delFlag"      column="del_flag"    />
+        <result property="createBy"     column="create_by"   />
+        <result property="createTime"   column="create_time" />
+        <result property="updateBy"     column="update_by"   />
+        <result property="updateTime"   column="update_time" />
+    </resultMap>
+
+    <sql id="selectSysTypeVo">
+        select type.type_id, type.type_name, type.order_num, type.parent_id, type.ancestors, type.status, type.del_flag, type.create_by, type.create_time, type.update_by, type.update_time
+        from sys_type type
+    </sql>
+
+    <select id="selectTypeList" parameterType="SysType" resultMap="SysTypeResult">
+        <include refid="selectSysTypeVo"/>
+        where type.del_flag = '0'
+        <if test="typeName != null  and typeName != ''">
+            and type.type_name like concat('%', #{typeName}, '%')
+        </if>
+        <if test="parentId != null and parentId != 0">
+            and type.parent_id = #{parentId}
+        </if>
+        <if test="status != null  and status != ''">
+            and type.status = #{status}
+        </if>
+        order by type.parent_id, type.order_num
+    </select>
+    
+    <select id="selectTypeById" parameterType="Long" resultMap="SysTypeResult">
+        <include refid="selectSysTypeVo"/>
+        where type.type_id = #{typeId}
+    </select>
+
+    <select id="selectChildrenTypeById" parameterType="Long" resultMap="SysTypeResult">
+        select * from sys_type where find_in_set(#{typeId}, ancestors)
+    </select>
+
+    <select id="selectNormalChildrenTypeById" parameterType="Long" resultType="int">
+        select count(*) from sys_type where status = 0 and del_flag = '0' and find_in_set(#{typeId}, ancestors)
+    </select>
+
+    <select id="hasChildByTypeId" parameterType="Long" resultType="int">
+        select count(1) from sys_type
+        where del_flag = '0' and parent_id = #{typeId} limit 1
+    </select>
+
+    <select id="checkTypeExistBlog" parameterType="Long" resultType="int">
+        select count(1) from sys_blog where type_id = #{typeId} and del_flag = '0'
+    </select>
+
+    <select id="checkTypeNameUnique" resultMap="SysTypeResult">
+        <include refid="selectSysTypeVo"/>
+        where type_name = #{typeName} and parent_id = #{parentId} limit 1
+    </select>
+        
+    <insert id="insertType" parameterType="SysType" useGeneratedKeys="true" keyProperty="typeId">
+        insert into sys_type(
+            <if test="typeName != null and typeName != ''">type_name,</if>
+            <if test="orderNum != null and orderNum != ''">order_num,</if>
+            <if test="parentId != null and parentId != 0">parent_id,</if>
+            <if test="ancestors != null and typeName != ''">ancestors,</if>
+            <if test="status != null and typeName != ''">status,</if>
+            <if test="delFlag != null and typeName != ''">del_flag,</if>
+            <if test="createBy != null and typeName != ''">create_by,</if>
+            create_time
+        ) values (
+            <if test="typeName != null and typeName != ''">#{typeName},</if>
+            <if test="orderNum != null and orderNum != ''">#{orderNum},</if>
+            <if test="parentId != null and parentId != 0">#{parentId},</if>
+            <if test="ancestors != null and ancestors != ''">#{ancestors},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="delFlag != null and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        )
+    </insert>
+
+    <update id="updateType" parameterType="SysType">
+        update sys_type
+        <set>
+            <if test="typeName != null and typeName != ''">type_name = #{typeName},</if>
+            <if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
+            <if test="parentId != null and parentId != 0">parent_id = #{parentId},</if>
+            <if test="ancestors != null and ancestors != ''">ancestors = #{ancestors},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </set>
+        where type_id = #{typeId}
+    </update>
+
+    <update id="updateTypeStatus" parameterType="SysType">
+        update sys_type
+        <set>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </set>
+        where type_id in (${ancestors})
+    </update>
+
+    <update id="updateTypeChildren" parameterType="java.util.List">
+        update sys_type set ancestors =
+        <foreach collection="types" item="item" index="index"
+                 separator=" " open="case type_id" close="end">
+            when #{item.typeId} then #{item.ancestors}
+        </foreach>
+        where type_id in
+        <foreach collection="types" item="item" index="index"
+                 separator="," open="(" close=")">
+            #{item.typeId}
+        </foreach>
+    </update>
+
+    <update id="deleteTypeById" parameterType="Long">
+        update sys_type set del_flag = '2' where type_id = #{typeId}
+    </update>
+    
+</mapper>

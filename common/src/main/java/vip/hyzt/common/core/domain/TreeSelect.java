@@ -2,6 +2,7 @@ package vip.hyzt.common.core.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import vip.hyzt.common.core.domain.entity.SysMenu;
+import vip.hyzt.common.core.domain.entity.SysType;
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +34,13 @@ public class TreeSelect implements Serializable
         this.id = menu.getMenuId();
         this.label = menu.getMenuName();
         this.children = menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
+    }
+
+    public TreeSelect(SysType type)
+    {
+        this.id = type.getTypeId();
+        this.label = type.getTypeName();
+        this.children = type.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
     public Long getId() {

@@ -29,6 +29,7 @@ create table sys_user (
 -- ----------------------------
 insert into sys_user values(1,  'admin', 'admin', '00', 'hy@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '管理员');
 insert into sys_user values(2,  'hy',    'hy',    '00', 'hy@qq.com',  '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '用户'  );
+insert into sys_user values(3,  'cp',    'cp',    '00', 'cp@qq.com',  '16999999999', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '用户'  );
 
 -- ----------------------------
 -- 2、角色信息表
@@ -540,8 +541,8 @@ create table sys_notice (
 -- ----------------------------
 -- 初始化-公告信息表数据
 -- ----------------------------
-insert into sys_notice values('1', '温馨提醒：2018-07-01 若依新版本发布啦', '2', '新版本内容', '0', 'admin', sysdate(), '', null, '管理员');
-insert into sys_notice values('2', '维护通知：2018-07-01 若依系统凌晨维护', '1', '维护内容',   '0', 'admin', sysdate(), '', null, '管理员');
+insert into sys_notice values('1', '温馨提醒：2020-07-01 新版本发布啦', '2', '新版本内容', '0', 'admin', sysdate(), '', null, '管理员');
+insert into sys_notice values('2', '维护通知：2020-07-01 系统凌晨维护', '1', '维护内容',   '0', 'admin', sysdate(), '', null, '管理员');
 
 
 -- ----------------------------
@@ -600,3 +601,91 @@ create table gen_table_column (
   update_time       datetime                                   comment '更新时间',
   primary key (column_id)
 ) engine=innodb auto_increment=1 comment = '代码生成业务表字段';
+
+-- ----------------------------
+-- 20、博客表
+-- ----------------------------
+drop table if exists sys_blog;
+create table sys_blog (
+    blog_id                 bigint(20)      not null    auto_increment  comment '博客id',
+    user_id                 bigint(20)      not null                    comment '用户id',
+    blog_title              varchar(50)     not null                    comment '博客标题',
+    description             varchar(260)    not null                    comment '博客描述',
+    blog_content            text            not null                    comment '博客内容',
+    first_picture           varchar(160)    not null                    comment '博客首图',
+    flag                    char(1)         not null                    comment '博客标记（0表示原创，1表示转载）',
+    views_number            int(11)         default 0                   comment '博客浏览数',
+    like_number             int(11)         default 0                   comment '博客点赞数',
+    appreciate_function     char(1)         not null                    comment '是否开启赞赏（0表示关闭，1表示开启）',
+    comment_function        char(1)         not null                    comment '是否开启评论功能（0表示关闭，1表示开启）',
+    published               char(1)         not null                    comment '是否发布（0表示否，1表示是）',
+    type_id                 bigint(20)      not null                    comment '类型id',
+    del_flag                char(1)         default '0'                 comment '删除标志（0代表存在 2代表删除）',
+    create_by               varchar(64)     default ''                  comment '创建者',
+    create_time 	        datetime                                    comment '创建时间',
+    update_by               varchar(64)     default ''                  comment '更新者',
+    update_time             datetime                                    comment '更新时间',
+    primary key (blog_id)
+) engine=innodb auto_increment=100 comment = '博客表';
+
+-- ----------------------------
+-- 21、博客标签表
+-- ----------------------------
+drop table if exists sys_tag;
+create table sys_tag (
+    tag_id                  bigint(20)      not null    auto_increment  comment '标签id',
+    tag_name                varchar(30)     not null                    comment '标签名称',
+    del_flag                char(1)         default '0'                 comment '删除标志（0代表存在 2代表删除）',
+    create_by               varchar(64)     default ''                  comment '创建者',
+    create_time 	        datetime                                    comment '创建时间',
+    update_by               varchar(64)     default ''                  comment '更新者',
+    update_time             datetime                                    comment '更新时间',
+    primary key (tag_id)
+) engine=innodb auto_increment=100 comment = '博客标签表';
+
+-- ----------------------------
+-- 22、博客与标签关联表
+-- ----------------------------
+drop table if exists sys_blog_tag;
+create table sys_blog_tag (
+    blog_id         bigint(20)      not null        comment '博客id',
+    tag_id          bigint(20)      not null        comment '标签id',
+    primary key (blog_id, tag_id)
+) engine=innodb auto_increment=100 comment = '博客与标签关联表';
+
+-- ----------------------------
+-- 23、博客类型表
+-- ----------------------------
+drop table if exists sys_type;
+create table sys_type (
+    type_id         bigint(20)    not null  auto_increment  comment '类型id',
+    type_name       varchar(30)   not null                  comment '类型名称',
+    order_num       int(4)        default 0                 comment '显示顺序',
+    parent_id       bigint(20)    default 0                 comment '父类型id',
+    ancestors       varchar(50)   default ''                comment '祖级列表',
+    status          char(1)       default '0'               comment '类型状态:0正常,1停用',
+    del_flag        char(1)       default '0'               comment '删除标志（0代表存在 2代表删除）',
+    create_by       varchar(64)   default ''                comment '创建者',
+    create_time 	datetime                                comment '创建时间',
+    update_by       varchar(64)   default ''                comment '更新者',
+    update_time     datetime                                comment '更新时间',
+    primary key (type_id)
+) engine=innodb auto_increment=100 comment = '博客类型表';
+
+-- ----------------------------
+-- 24、博客评论表
+-- ----------------------------
+drop table if exists sys_comment;
+create table sys_comment (
+    comment_id      bigint(20)      not null    auto_increment  comment '评论id',
+    parent_id       bigint(20)      default 0                   comment '父评论id',
+    ancestors       varchar(50)     default ''                  comment '祖级列表',
+    blog_id         bigint(20)      not null                    comment '博客id',
+    nickname        varchar(30)     not null                    comment '评论人名称',
+    email           varchar(30)     not null                    comment '评论人邮箱',
+    content         varchar(600)    not null                    comment '评论内容',
+    avatar          varchar(100)    default ''                  comment '评论人头像',
+    del_flag        char(1)         default '0'                 comment '删除标志（0代表存在 2代表删除）',
+    create_time 	datetime                                    comment '创建时间',
+    primary key (comment_id)
+) engine=innodb auto_increment=100 comment = '博客评论表';

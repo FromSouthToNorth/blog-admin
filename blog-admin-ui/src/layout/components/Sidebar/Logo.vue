@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      title: '博客管理系统',
+      title: '管理系统',
       logo: logoImg
     }
   }
