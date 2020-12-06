@@ -63,6 +63,18 @@ public class SysTagServiceImpl implements ISysTagService
     }
 
     /**
+     * 根据博客ID获取标签选择框列表
+     *
+     * @param blogId 博客ID
+     * @return 选中标签的ID列表
+     */
+    @Override
+    public List<Integer> selectTagListByBlogId(Long blogId)
+    {
+        return tagMapper.selectTagListByBlogId(blogId);
+    }
+
+    /**
      * 校验标签名称是否唯一
      *
      * @param tag 标签信息

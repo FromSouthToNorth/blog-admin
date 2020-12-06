@@ -42,6 +42,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where tag.tag_id = #{tagId}
     </select>
 
+    <select id="selectTagListByBlogId" parameterType="Long" resultType="Integer">
+        select t.tag_id
+        from sys_tag t
+            left join sys_blog_tag bt on bt.tag_id = t.tag_id
+            left join sys_blog b on b.blog_id = bt.blog_id
+        where b.blog_id = #{blogId}
+    </select>
+
     <select id="checkTagNameUnique" parameterType="String" resultMap="SysTagResult">
         <include refid="selectSysTagVo"/>
         where tag.del_flag = '0' and tag.tag_name = #{tagName} limit 1

@@ -4,6 +4,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import vip.hyzt.common.annotation.Excel;
 import vip.hyzt.common.core.domain.BaseEntity;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * 博客标签对象 sys_tag
@@ -19,6 +21,8 @@ public class SysTag extends BaseEntity
     private Long tagId;
 
     /** 标签名称 */
+    @NotBlank(message = "标签名称不能为空")
+    @Size(min = 0, max = 30, message = "标签名称长度不能超过30个字符")
     @Excel(name = "标签名称")
     private String tagName;
 

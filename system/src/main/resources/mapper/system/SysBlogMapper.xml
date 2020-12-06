@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.hyzt.system.mapper.SysBlogMapper">
+    
+    <resultMap type="SysBlog" id="SysBlogResult">
+        <result property="blogId"               column="blog_id"                />
+        <result property="userId"               column="user_id"                />
+        <result property="blogTitle"            column="blog_title"             />
+        <result property="description"          column="description"            />
+        <result property="blogContent"          column="blog_content"           />
+        <result property="firstPicture"         column="first_picture"          />
+        <result property="flag"                 column="flag"                   />
+        <result property="viewsNumber"          column="views_number"           />
+        <result property="likeNumber"           column="like_number"            />
+        <result property="appreciateFunction"   column="appreciate_function"    />
+        <result property="commentFunction"      column="comment_function"       />
+        <result property="published"            column="published"              />
+        <result property="typeId"               column="type_id"                />
+        <result property="delFlag"              column="del_flag"               />
+        <result property="createBy"             column="create_by"              />
+        <result property="createTime"           column="create_time"            />
+        <result property="updateBy"             column="update_by"              />
+        <result property="updateTime"           column="update_time"            />
+        <association property="type"            column="type_id" javaType="SysType" resultMap="typeResult"  />
+        <collection  property="tags"            javaType="java.util.List"   resultMap="tagResult"           />
+    </resultMap>
+
+    <resultMap id="typeResult" type="SysType">
+        <id     property="typeId"   column="type_id"    />
+        <result property="typeName" column="type_name"  />
+    </resultMap>
+
+    <resultMap id="tagResult" type="SysTag">
+        <id     property="tagId"    column="tag_id"     />
+        <result property="tagName"  column="tag_name"   />
+    </resultMap>
+
+    <sql id="selectSysBlogVo">
+        select b.blog_id, b.user_id, b.blog_title, b.description, b.blog_content, b.first_picture,
+        b.flag, b.views_number, b.like_number, b.appreciate_function, b.comment_function, b.published,
+        b.type_id, b.del_flag, b.create_by, b.create_time, b.update_by, b.update_time
+        t.type_id, t.type_name,
+        tag.tag_id, tag.tag_name
+        from sys_blog b
+        left join sys_type t on b.type_id = t.type_id
+        left join sys_blog_tag bt on bt.blog_id = b.blog_id
+        left join sys_tag tag on tag.tag_id = bt.tag_id
+    </sql>
+
+    <select id="selectBlogList" parameterType="SysBlog" resultMap="SysBlogResult">
+        <include refid="selectSysBlogVo"/>
+        where b.del_flag = '0'
+        <if test="blogTitle != null  and blogTitle != ''">
+            and b.blog_title = #{searchValue}
+        </if>
+        <if test="description != null  and description != ''">
+            and b.description = #{searchValue}
+        </if>
+        <if test="published != null  and published != ''">
+            and b.published = #{published}
+        </if>
+        <if test="typeId != null and typeId != 0">
+            and (b.type_id = #{typeId} or b.type_id in (select t.type_id from sys_type t where find_in_set (#{typeId}, ancestors) ))
+        </if>
+        <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+            and date_format(b.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+        </if>
+        <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+            and date_format(b.create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+        </if>
+        <!-- 数据范围过滤 -->
+        ${params.dataScope}
+    </select>
+    
+    <select id="selectBlogById" parameterType="Long" resultMap="SysBlogResult">
+        <include refid="selectSysBlogVo"/>
+        where b.blog_id = #{blogId}
+    </select>
+        
+    <insert id="insertBlog" parameterType="SysBlog" useGeneratedKeys="true" keyProperty="blogId">
+        insert into sys_blog (
+            <if test="userId != null and userId != 0">user_id,</if>
+            <if test="blogTitle != null and blogTitle != ''">blog_title,</if>
+            <if test="description != null and description != ''">description,</if>
+            <if test="blogContent != null and blogContent != ''">blog_content,</if>
+            <if test="firstPicture != null and firstPicture != ''">first_picture,</if>
+            <if test="flag != null and flag != ''">flag,</if>
+            <if test="appreciateFunction != null and appreciateFunction != ''">appreciate_function,</if>
+            <if test="commentFunction != null and commentFunction != ''">comment_function,</if>
+            <if test="published != null and published != ''">published,</if>
+            <if test="typeId != null and typeId != 0">type_id,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        ) values (
+            <if test="userId != null and userId != 0">#{userId},</if>
+            <if test="blogTitle != null and blogTitle != ''">#{blogTitle},</if>
+            <if test="description != null and description != ''">#{description},</if>
+            <if test="blogContent != null and blogContent != ''">#{blogContent},</if>
+            <if test="firstPicture != null and firstPicture != ''">#{firstPicture},</if>
+            <if test="flag != null and flag != ''">#{flag},</if>
+            <if test="appreciateFunction != null and appreciateFunction != ''">#{appreciateFunction},</if>
+            <if test="commentFunction != null and commentFunction != ''">#{commentFunction},</if>
+            <if test="published != null and published != ''">#{published},</if>
+            <if test="typeId != null and typeId != 0">#{typeId},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        )
+    </insert>
+
+    <update id="updateBlog" parameterType="SysBlog">
+        update sys_blog
+        <set>
+            <if test="blogTitle != null and blogTitle != ''">blog_title = #{blogTitle},</if>
+            <if test="description != null and description != ''">description = #{description},</if>
+            <if test="blogContent != null and blogContent != ''">blog_content = #{blogContent},</if>
+            <if test="firstPicture != null and firstPicture != ''">first_picture = #{firstPicture},</if>
+            <if test="flag != null and flag != ''">flag = #{flag},</if>
+            <if test="appreciateFunction != null and appreciateFunction != ''">appreciate_function = #{appreciateFunction},</if>
+            <if test="commentFunction != null and commentFunction != ''">comment_function = #{commentFunction},</if>
+            <if test="published != null and published != ''">published = #{published},</if>
+            <if test="typeId != null and typeId != 0">type_id = #{typeId},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </set>
+        where blog_id = #{blogId}
+    </update>
+
+    <delete id="deleteBlogById" parameterType="Long">
+        delete from sys_blog where blog_id = #{blogId}
+    </delete>
+
+    <update id="deleteBlogByIds" parameterType="String">
+        update sys_blog set del_flag = '2' where blog_id in
+        <foreach item="blogId" collection="array" open="(" separator="," close=")">
+            #{blogId}
+        </foreach>
+    </update>
+
+    <select id="checkBlogTitleUnique" parameterType="String" resultMap="SysBlogResult">
+        select blog_id, blog_title from sys_blog where blog_title = #{blogTitle} limit 1
+    </select>
+    
+</mapper>

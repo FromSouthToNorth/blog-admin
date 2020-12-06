@@ -35,6 +35,14 @@ public interface SysTagMapper
     public SysTag selectTagById(Long tagId);
 
     /**
+     * 根据博客ID获取标签选择框列表
+     *
+     * @param blogId 博客ID
+     * @return 选中的标签ID列表
+     */
+    public List<Integer> selectTagListByBlogId(Long blogId);
+
+    /**
      * 校验标签名称是否唯一
      *
      * @param tagName 标签名称

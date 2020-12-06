@@ -143,7 +143,7 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 角色表格数据
+      // 标签表格数据
       tagList: [],
       // 弹出层标题
       title: "",
@@ -249,7 +249,7 @@ export default {
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams
-      this.$confirm('是否确认导出所有角色数据项?', "警告", {
+      this.$confirm('是否确认导出所有标签数据项?', "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"

@@ -15,7 +15,7 @@ public class SecurityUtils
 {
     /**
      * 获取用户账户
-     **/
+     */
     public static String getUsername()
     {
         try
@@ -29,8 +29,19 @@ public class SecurityUtils
     }
 
     /**
+     * 获取用户ID
+     */
+    public static Long getUserId() {
+        try {
+            return getLoginUser().getUser().getUserId();
+        } catch (Exception e) {
+            throw new CustomException("获取用户账户异常", HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    /**
      * 获取用户
-     **/
+     */
     public static LoginUser getLoginUser()
     {
         try

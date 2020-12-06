@@ -3,6 +3,8 @@ package vip.hyzt.common.core.domain.entity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import vip.hyzt.common.core.domain.BaseEntity;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,8 @@ public class SysType extends BaseEntity
     private Long typeId;
 
     /** 类型名称 */
+    @NotBlank(message = "类型名称不能为空")
+    @Size(min = 0, max = 30, message = "类型名称长度不能超过30个字符")
     private String typeName;
 
     /** 显示顺序 */
