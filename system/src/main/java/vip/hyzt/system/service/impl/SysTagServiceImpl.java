@@ -47,7 +47,7 @@ public class SysTagServiceImpl implements ISysTagService
     @Override
     public List<SysTag> selectTagAll()
     {
-        return SpringUtils.getAopProxy(this).selectTagList(new SysTag());
+        return tagMapper.selectTagAll();
     }
 
     /**

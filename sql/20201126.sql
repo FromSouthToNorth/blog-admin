@@ -99,12 +99,12 @@ insert into sys_menu values('101',  '角色管理', '1',   '2', 'role',       's
 insert into sys_menu values('102',  '菜单管理', '1',   '3', 'menu',       'system/menu/index',        1, 0, 'C', '0', '0', 'system:menu:list',        'tree-table',    'admin', sysdate(), '', null, '菜单管理菜单');
 insert into sys_menu values('103',  '博客管理', '1',   '4', 'blog',       'system/blog/index',        1, 0, 'C', '0', '0', 'system:blog:list',        'blog',          'admin', sysdate(), '', null, '部门管理菜单');
 insert into sys_menu values('104',  '分类管理', '1',   '5', 'type',       'system/type/index',        1, 0, 'C', '0', '0', 'system:type:list',        'type',          'admin', sysdate(), '', null, '岗位管理菜单');
-insert into sys_menu values('105',  '标签管理', '1',   '5', 'tag',        'system/tag/index',         1, 0, 'C', '0', '0', 'system:tag:list',         'tag',           'admin', sysdate(), '', null, '岗位管理菜单');
-insert into sys_menu values('106',  '评论管理', '1',   '5', 'comment',    'system/comment/index',     1, 0, 'C', '0', '0', 'system:comment:list',     'comment',       'admin', sysdate(), '', null, '岗位管理菜单');
-insert into sys_menu values('107',  '字典管理', '1',   '6', 'dict',       'system/dict/index',        1, 0, 'C', '0', '0', 'system:dict:list',        'dict',          'admin', sysdate(), '', null, '字典管理菜单');
-insert into sys_menu values('108',  '参数设置', '1',   '7', 'config',     'system/config/index',      1, 0, 'C', '0', '0', 'system:config:list',      'edit',          'admin', sysdate(), '', null, '参数设置菜单');
-insert into sys_menu values('109',  '通知公告', '1',   '8', 'notice',     'system/notice/index',      1, 0, 'C', '0', '0', 'system:notice:list',      'message',       'admin', sysdate(), '', null, '通知公告菜单');
-insert into sys_menu values('110',  '日志管理', '1',   '9', 'log',        'system/log/index',         1, 0, 'M', '0', '0', '',                        'log',           'admin', sysdate(), '', null, '日志管理菜单');
+insert into sys_menu values('105',  '标签管理', '1',   '6', 'tag',        'system/tag/index',         1, 0, 'C', '0', '0', 'system:tag:list',         'tag',           'admin', sysdate(), '', null, '岗位管理菜单');
+insert into sys_menu values('106',  '评论管理', '1',   '7', 'comment',    'system/comment/index',     1, 0, 'C', '0', '0', 'system:comment:list',     'comment',       'admin', sysdate(), '', null, '岗位管理菜单');
+insert into sys_menu values('107',  '字典管理', '1',   '8', 'dict',       'system/dict/index',        1, 0, 'C', '0', '0', 'system:dict:list',        'dict',          'admin', sysdate(), '', null, '字典管理菜单');
+insert into sys_menu values('108',  '参数设置', '1',   '9', 'config',     'system/config/index',      1, 0, 'C', '0', '0', 'system:config:list',      'edit',          'admin', sysdate(), '', null, '参数设置菜单');
+insert into sys_menu values('109',  '通知公告', '1',   '10', 'notice',    'system/notice/index',      1, 0, 'C', '0', '0', 'system:notice:list',      'message',       'admin', sysdate(), '', null, '通知公告菜单');
+insert into sys_menu values('110',  '日志管理', '1',   '11', 'log',       'system/log/index',         1, 0, 'M', '0', '0', '',                        'log',           'admin', sysdate(), '', null, '日志管理菜单');
 insert into sys_menu values('111',  '在线用户', '2',   '1', 'online',     'monitor/online/index',     1, 0, 'C', '0', '0', 'monitor:online:list',     'online',        'admin', sysdate(), '', null, '在线用户菜单');
 insert into sys_menu values('112',  '定时任务', '2',   '2', 'job',        'monitor/job/index',        1, 0, 'C', '0', '0', 'monitor:job:list',        'job',           'admin', sysdate(), '', null, '定时任务菜单');
 insert into sys_menu values('113',  '数据监控', '2',   '3', 'druid',      'monitor/druid/index',      1, 0, 'C', '0', '0', 'monitor:druid:list',      'druid',         'admin', sysdate(), '', null, '数据监控菜单');
@@ -612,13 +612,13 @@ create table sys_blog (
     blog_title              varchar(50)     not null                    comment '博客标题',
     description             varchar(260)    not null                    comment '博客描述',
     blog_content            text            not null                    comment '博客内容',
-    first_picture           varchar(160)    not null                    comment '博客首图',
-    flag                    char(1)         not null                    comment '博客标记（0表示原创，1表示转载）',
+    first_picture           varchar(160)    default ''                  comment '博客首图',
+    flag                    char(1)         default '0'                 comment '博客标记（0表示原创，1表示转载）',
     views_number            int(11)         default 0                   comment '博客浏览数',
     like_number             int(11)         default 0                   comment '博客点赞数',
-    appreciate_function     char(1)         not null                    comment '是否开启赞赏（0表示关闭，1表示开启）',
-    comment_function        char(1)         not null                    comment '是否开启评论功能（0表示关闭，1表示开启）',
-    published               char(1)         not null                    comment '是否发布（0表示否，1表示是）',
+    appreciate_function     char(1)         default 'Y'                 comment '是否开启赞赏（N表示关闭，Y表示开启）',
+    comment_function        char(1)         default 'Y'                 comment '是否开启评论功能（N表示关闭，Y表示开启）',
+    published               char(1)         default '1'                 comment '是否发布（0表示否，1表示是）',
     type_id                 bigint(20)      not null                    comment '类型id',
     del_flag                char(1)         default '0'                 comment '删除标志（0代表存在 2代表删除）',
     create_by               varchar(64)     default ''                  comment '创建者',

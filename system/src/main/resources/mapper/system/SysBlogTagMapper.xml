@@ -14,10 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <delete id="deleteBlogTagByBlogId" parameterType="Long">
-        delete from sys_blog_tag where blog_id in
-        <foreach collection="array" item="blogId" open="(" separator="," close=")">
-            #{blogId}
-        </foreach>
+        delete from sys_blog_tag where blog_id = #{blogId}
     </delete>
 
     <insert id="batchBlogTag">

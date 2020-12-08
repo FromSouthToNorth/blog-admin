@@ -9,15 +9,12 @@ import vip.hyzt.common.constant.UserConstants;
 import vip.hyzt.common.core.controller.BaseController;
 import vip.hyzt.common.core.domain.AjaxResult;
 import vip.hyzt.common.core.domain.entity.SysBlog;
-import vip.hyzt.common.core.domain.entity.SysTag;
 import vip.hyzt.common.core.page.TableDataInfo;
 import vip.hyzt.common.enums.BusinessType;
 import vip.hyzt.common.utils.SecurityUtils;
 import vip.hyzt.common.utils.StringUtils;
 import vip.hyzt.system.service.ISysBlogService;
 import vip.hyzt.system.service.ISysTagService;
-import vip.hyzt.system.service.ISysTypeService;
-
 import java.util.List;
 
 /**
@@ -35,9 +32,6 @@ public class SysBlogController extends BaseController
 
     @Autowired
     private ISysTagService tagService;
-
-    @Autowired
-    private ISysTypeService typeService;
 
     /**
      * 获取博客列表
@@ -71,9 +65,10 @@ public class SysBlogController extends BaseController
     /**
      * 博客编号查询博客信息
      */
-    @PreAuthorize("@ss.hasAnyPermi('system:blog:query')")
+    @PreAuthorize("@ss.hasPermi('system:blog:query')")
     @GetMapping(value = { "/", "/{blogId}" })
-    public AjaxResult getInfo(@PathVariable(value = "blogId") Long blogId) {
+    public AjaxResult getInfo(@PathVariable(value = "blogId", required = false) Long blogId)
+    {
         AjaxResult ajax = AjaxResult.success();
         ajax.put("tags", tagService.selectTagAll());
         if (StringUtils.isNotNull(blogId))
@@ -87,7 +82,7 @@ public class SysBlogController extends BaseController
     /**
      * 修改博客
      */
-    @PreAuthorize("@ss.hasAnyPermi('system:blog:edit')")
+    @PreAuthorize("@ss.hasPermi('system:blog:edit')")
     @Log(title = "博客管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysBlog blog) {
@@ -101,7 +96,7 @@ public class SysBlogController extends BaseController
     /**
      * 删除博客
      */
-    @PreAuthorize("@ss.hasAnyPermi('system:blog:remove')")
+    @PreAuthorize("@ss.hasPermi('system:blog:remove')")
     @Log(title = "博客管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{blogIds}")
     public AjaxResult remove(@PathVariable Long[] blogIds) {
@@ -117,6 +112,6 @@ public class SysBlogController extends BaseController
     public AjaxResult changePublished(@RequestBody SysBlog blog)
     {
         blog.setUpdateBy(SecurityUtils.getUsername());
-        return toAjax(blogService.updateBlog(blog));
+        return toAjax(blogService.updateUserPublishedStatus(blog));
     }
 }

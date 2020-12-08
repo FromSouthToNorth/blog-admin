@@ -53,6 +53,7 @@ public class SysBlogServiceImpl implements ISysBlogService
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertBlog(SysBlog blog)
     {
         // 新增博客信息

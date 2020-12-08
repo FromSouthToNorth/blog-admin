@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="selectSysBlogVo">
         select b.blog_id, b.user_id, b.blog_title, b.description, b.blog_content, b.first_picture,
         b.flag, b.views_number, b.like_number, b.appreciate_function, b.comment_function, b.published,
-        b.type_id, b.del_flag, b.create_by, b.create_time, b.update_by, b.update_time
+        b.type_id, b.del_flag, b.create_by, b.create_time, b.update_by, b.update_time,
         t.type_id, t.type_name,
         tag.tag_id, tag.tag_name
         from sys_blog b

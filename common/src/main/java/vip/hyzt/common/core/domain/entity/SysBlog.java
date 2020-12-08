@@ -67,7 +67,7 @@ public class SysBlog extends BaseEntity
     private String commentFunction;
 
     /** 是否发布（0表示否，1表示是） */
-    @Excel(name = "是否发布", readConverterExp = "0=表示否，1表示是")
+    @Excel(name = "是否发布", readConverterExp = "0=表示私密，1表示发布")
     private String published;
 
     /** 类型id */

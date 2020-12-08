@@ -13,7 +13,7 @@ export function listBlog(query) {
 // 查询博客详情
 export function getBlog(blogId) {
   return request({
-    url: '/system/blog' + praseStrEmpty(blogId),
+    url: '/system/blog/' + praseStrEmpty(blogId),
     method: 'get'
   })
 }
@@ -39,7 +39,7 @@ export function updateBlog(data) {
 // 删除博客
 export function delBlog(blogId) {
   return request({
-    url: '/system/blog' + blogId,
+    url: '/system/blog/' + blogId,
     method: 'delete'
   })
 }
