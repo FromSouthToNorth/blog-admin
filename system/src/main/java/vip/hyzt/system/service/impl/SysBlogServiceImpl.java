@@ -87,7 +87,6 @@ public class SysBlogServiceImpl implements ISysBlogService
     {
         Long blogId = StringUtils.isNull(blog.getBlogId()) ? -1L : blog.getBlogId();
         SysBlog info = blogMapper.checkBlogTitleUnique(blog.getBlogTitle());
-        System.out.println(info);
         if (StringUtils.isNotNull(info)
                 && info.getBlogId().longValue() != blogId.longValue()
                 && info.getUserId().longValue() == blog.getUserId().longValue() )
