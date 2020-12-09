@@ -1,5 +1,6 @@
 package vip.hyzt.web.controller.system;
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -53,11 +54,11 @@ public class SysBlogController extends BaseController
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysBlog blog)
     {
+        blog.setUserId(SecurityUtils.getUserId());
         if (blogService.checkBlogTitleUnique(blog).equals(UserConstants.NOT_UNIQUE))
         {
             return AjaxResult.error("博客标题已存在 ‘" + blog.getBlogTitle() + "’ 请重新输入，新的标题");
         }
-        blog.setUserId(SecurityUtils.getUserId());
         blog.setCreateBy(SecurityUtils.getUsername());
         return toAjax(blogService.insertBlog(blog));
     }
@@ -85,8 +86,10 @@ public class SysBlogController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:blog:edit')")
     @Log(title = "博客管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@Validated @RequestBody SysBlog blog) {
-        if (blogService.checkBlogTitleUnique(blog).equals(UserConstants.NOT_UNIQUE)) {
+    public AjaxResult edit(@Validated @RequestBody SysBlog blog)
+    {
+        if (blogService.checkBlogTitleUnique(blog).equals(UserConstants.NOT_UNIQUE))
+        {
             return AjaxResult.error("博客标题已存在 ’" + blog.getBlogTitle() + "’ 请重新输入，新的标题");
         }
         blog.setUpdateBy(SecurityUtils.getUsername());
@@ -113,5 +116,16 @@ public class SysBlogController extends BaseController
     {
         blog.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(blogService.updateUserPublishedStatus(blog));
+    }
+
+    /**
+     * 查询博客内容
+     */
+    @PreAuthorize("@ss.hasPermi('system:blog:query')")
+    @GetMapping("/getcontent/{blogId}")
+    public AjaxResult getContent(@PathVariable(value = "blogId") Long blogId)
+    {
+        String content = blogService.selectBlogContentById(blogId);
+        return AjaxResult.success(AjaxResult.DATA_TAG, content);
     }
 }

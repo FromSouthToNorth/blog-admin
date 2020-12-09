@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.hyzt.system.mapper.SysGossipMapper">
+    
+    <resultMap type="SysGossip" id="SysGossipResult">
+        <result property="gossipId"         column="gossip_id"      />
+        <result property="userId"           column="user_id"        />
+        <result property="gossipContent"    column="gossip_content" />
+        <result property="likeNumber"       column="like_number"    />
+        <result property="delFlag"          column="del_flag"       />
+        <result property="createBy"         column="create_by"      />
+        <result property="createTime"       column="create_time"    />
+        <result property="updateBy"         column="update_by"      />
+        <result property="updateTime"       column="update_time"    />
+    </resultMap>
+
+    <sql id="selectGossipVo">
+        select g.gossip_id, g.user_id, g.gossip_content, g.like_number, g.del_flag, g.create_by, g.create_time, g.update_by, g.update_time
+        from sys_gossip g
+        left join sys_user u on b.user_id = u.user_Id
+    </sql>
+
+    <select id="selectGossipList" parameterType="SysGossip" resultMap="SysGossipResult">
+        <include refid="selectGossipVo"/>
+        where g.del_flag = '0'
+        <if test="gossipContent != null  and gossipContent != ''">
+            and g.gossip_content like concat('%', #{gossipContent}, '%')
+        </if>
+        <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+            and date_format(g.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+        </if>
+        <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+            and date_format(g.create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+        </if>
+        <!-- 数据范围过滤 -->
+        ${params.dataScope}
+    </select>
+    
+    <select id="selectGossipById" parameterType="Long" resultMap="SysGossipResult">
+        <include refid="selectGossipVo"/>
+        where g.gossip_id = #{gossipId}
+    </select>
+        
+    <insert id="insertGossip" parameterType="SysGossip" useGeneratedKeys="true" keyProperty="gossipId">
+        insert into sys_gossip (
+            <if test="userId != null and userId != 0">user_id,</if>
+            <if test="gossipContent != null and gossipContent != ''">gossip_content,</if>
+            <if test="createBy != null and createBy != null">create_by,</if>
+            create_time
+        ) values (
+            <if test="userId != null and userId != 0">#{userId},</if>
+            <if test="gossipContent != null and gossipContent != ''">#{gossipContent},</if>
+            <if test="createBy != null and createBy != null">#{createBy},</if>
+            sysdate()
+        )
+    </insert>
+
+    <update id="updateGossip" parameterType="SysGossip">
+        update sys_gossip
+        <set>
+            <if test="gossipContent != null and gossipContent != ''">gossip_content = #{gossipContent},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </set>
+        where gossip_id = #{gossipId}
+    </update>
+
+    <delete id="deleteGossipById" parameterType="Long">
+        delete from sys_gossip where gossip_id = #{gossipId}
+    </delete>
+
+    <update id="deleteGossipByIds" parameterType="String">
+        update sys_gossip set del_flag = '2' where gossip_id in
+        <foreach item="gossipId" collection="array" open="(" separator="," close=")">
+            #{gossipId}
+        </foreach>
+    </update>
+    
+</mapper>

@@ -109,7 +109,7 @@
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column label="博客编号" align="center" prop="blogId" />
           <el-table-column label="博客标题" align="center" prop="blogTitle" :show-overflow-tooltip="true" />
-          <el-table-column label="发布状态" align="center">
+          <el-table-column label="私密状态" align="center">
             <template slot-scope="scope">
               <el-switch
                 v-model="scope.row.published"
@@ -167,7 +167,7 @@
       </el-col>
     </el-row>
     <!-- 添加或修改参数配置对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="1260px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="82%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="96px">
         <el-row>
           <el-col :span="12">
@@ -279,15 +279,15 @@
       </div>
     </el-dialog>
 
-    <el-dialog :visible.sync="viewOpen">
-
+    <el-dialog :visible.sync="viewOpen" append-to-body>
+      <div class="blog-content" v-html="blog"></div>
     </el-dialog>
 
   </div>
 </template>
 
 <script>
-import { listBlog, addBlog, updateBlog, changeBlogPublishedStatus, delBlog, getBlog } from '@/api/system/blog'
+import { listBlog, addBlog, updateBlog, changeBlogPublishedStatus, delBlog, getBlog, getContent } from '@/api/system/blog'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import { treeselect } from '@/api/system/blogType'
@@ -418,7 +418,7 @@ export default {
     },
     // 修改博客发布状态
     handleStatusChange(row) {
-      let text = row.published === '0' ? '发布' : '私密'
+      let text = row.published === '0' ? '私密' : '发布'
       this.$confirm('确认要' + text + ' ' + row.blogTitle + '博客吗?', '警告', {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -484,8 +484,11 @@ export default {
       })
     },
     /** 查看博客按钮 */
-    handleView() {
+    handleView(row) {
       this.viewOpen = true
+      getContent(row.blogId).then(response => {
+        this.blog = response.data
+      })
     },
     /** 修改博客按钮 */
     handleUpdate(row) {
@@ -493,7 +496,6 @@ export default {
       this.getTreeselect()
       const blogId = row.blogId || this.ids
       getBlog(blogId).then(response => {
-        console.log(response)
         this.form = response.data
         this.tagOptions = response.tags
         this.form.tagIds = response.tagIds
@@ -503,7 +505,6 @@ export default {
     },
     /** 提交按钮 */
     submitForm: function() {
-      console.log(this.form)
       this.$refs['form'].validate(valid => {
         if (valid) {
           if (this.form.blogId != undefined) {
@@ -523,15 +524,31 @@ export default {
       })
     },
     /** 删除博客按钮 */
-    handleDelete() {
-
+    handleDelete(row) {
+      const blogId = row.blogId || this.ids
+      this.$confirm('是否确认删除博客编号为"' + blogId + '"的数据项?', "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+        return delBlog(blogId);
+      }).then(() => {
+        this.getList();
+        this.msgSuccess("删除成功");
+      })
     }
   }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-.v-note-wrapper .v-note-panel > div {
-  max-height: 500px;
+.v-note-wrapper{
+  .v-note-panel > div {
+    max-height: 500px;
+  }
+}
+.blog-content {
+  margin-left: 70px;
+  margin-right: 70px;
 }
 </style>

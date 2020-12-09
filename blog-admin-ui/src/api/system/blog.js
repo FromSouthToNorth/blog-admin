@@ -56,3 +56,11 @@ export function changeBlogPublishedStatus(blogId, published) {
     data: data
   })
 }
+
+// 获取博客内容
+export function getContent(blogId) {
+  return request({
+    url: '/system/blog/getcontent/' + blogId,
+    method: 'get'
+  })
+}

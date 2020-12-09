@@ -9,6 +9,7 @@ import vip.hyzt.common.annotation.DataScope;
 import vip.hyzt.common.constant.UserConstants;
 import vip.hyzt.common.core.domain.entity.SysBlog;
 import vip.hyzt.common.utils.StringUtils;
+import vip.hyzt.common.utils.commonmark.CommonmarkUtils;
 import vip.hyzt.system.domain.SysBlogTag;
 import vip.hyzt.system.mapper.SysBlogMapper;
 import vip.hyzt.system.mapper.SysBlogTagMapper;
@@ -84,9 +85,13 @@ public class SysBlogServiceImpl implements ISysBlogService
     @Override
     public String checkBlogTitleUnique(SysBlog blog)
     {
-        blog.setBlogId(StringUtils.isNull(blog.getBlogId()) ? -1L : blog.getBlogId());
-        SysBlog checkTitleBlog = blogMapper.checkBlogTitleUnique(blog.getBlogTitle());
-        if (StringUtils.isNotNull(checkTitleBlog) && !blog.getBlogId().equals(checkTitleBlog.getBlogId())) {
+        Long blogId = StringUtils.isNull(blog.getBlogId()) ? -1L : blog.getBlogId();
+        SysBlog info = blogMapper.checkBlogTitleUnique(blog.getBlogTitle());
+        System.out.println(info);
+        if (StringUtils.isNotNull(info)
+                && info.getBlogId().longValue() != blogId.longValue()
+                && info.getUserId().longValue() == blog.getUserId().longValue() )
+        {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
@@ -144,6 +149,19 @@ public class SysBlogServiceImpl implements ISysBlogService
     public int deleteBlogByIds(Long[] blogIds)
     {
         return blogMapper.deleteBlogByIds(blogIds);
+    }
+
+    /**
+     * 根据博客ID查询博客内容
+     *
+     * @param blogId 博客ID
+     * @return 博客内容
+     */
+    @Override
+    public String selectBlogContentById(Long blogId)
+    {
+        String content = blogMapper.selectBlogContentById(blogId);
+        return CommonmarkUtils.markdownFoHtml(content);
     }
 
     /**

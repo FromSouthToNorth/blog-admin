@@ -47,6 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join sys_type t on b.type_id = t.type_id
         left join sys_blog_tag bt on bt.blog_id = b.blog_id
         left join sys_tag tag on tag.tag_id = bt.tag_id
+        left join sys_user u on b.user_id = u.user_Id
     </sql>
 
     <select id="selectBlogList" parameterType="SysBlog" resultMap="SysBlogResult">
@@ -139,7 +140,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <select id="checkBlogTitleUnique" parameterType="String" resultMap="SysBlogResult">
-        select blog_id, blog_title from sys_blog where blog_title = #{blogTitle} limit 1
+        select blog_id, user_id, blog_title from sys_blog where blog_title = #{blogTitle} limit 1
+    </select>
+
+    <select id="selectBlogContentById" parameterType="Long" resultType="String">
+        select blog_content from sys_blog where blog_id = #{blogId}
     </select>
     
 </mapper>

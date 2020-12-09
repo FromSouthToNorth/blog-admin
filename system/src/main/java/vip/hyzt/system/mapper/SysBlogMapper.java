@@ -66,4 +66,12 @@ public interface SysBlogMapper
      * @return 结果
      */
     public SysBlog checkBlogTitleUnique(String blogTitle);
+
+    /**
+     * 根据博客ID查询博客内容
+     *
+     * @param blogId 博客ID
+     * @return 博客内容
+     */
+    public String selectBlogContentById(Long blogId);
 }
