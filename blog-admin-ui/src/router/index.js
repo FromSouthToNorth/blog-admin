@@ -80,6 +80,19 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/blog',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'edit',
+        component: (resolve) => require(['@/views/system/blog/edit'], resolve),
+        name: 'Edit',
+        meta: { title: '编辑博客', icon: '' }
+      }
+    ]
+  },
+  {
     path: '/dict',
     component: Layout,
     hidden: true,

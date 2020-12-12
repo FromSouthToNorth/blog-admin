@@ -280,7 +280,7 @@
     </el-dialog>
 
     <el-dialog :visible.sync="viewOpen" append-to-body>
-      <div class="blog-content" v-html="blog"></div>
+      <div class="blog-content" v-highlight v-html="blog"></div>
     </el-dialog>
 
   </div>

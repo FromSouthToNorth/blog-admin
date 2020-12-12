@@ -159,7 +159,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/image/login-background.jpg");
+  background-image: url("../assets/images/login-background.jpg");
   background-size: cover;
 }
 .title {
@@ -170,7 +170,7 @@ export default {
 
 @media screen and (max-width: 760px) {
   .login {
-    background-image: url("../assets/image/move-login-background.jpg");
+    background-image: url("../assets/images/move-login-background.jpg");
     .login-form {
       .title {
         color: #FFFFFF;

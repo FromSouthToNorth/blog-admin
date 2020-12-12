@@ -1,6 +1,5 @@
 package vip.hyzt.web.controller.system;
 
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -102,7 +101,8 @@ public class SysBlogController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:blog:remove')")
     @Log(title = "博客管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{blogIds}")
-    public AjaxResult remove(@PathVariable Long[] blogIds) {
+    public AjaxResult remove(@PathVariable Long[] blogIds)
+    {
         return toAjax(blogService.deleteBlogByIds(blogIds));
     }
 

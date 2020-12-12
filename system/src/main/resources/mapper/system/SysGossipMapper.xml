@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="selectGossipVo">
         select g.gossip_id, g.user_id, g.gossip_content, g.like_number, g.del_flag, g.create_by, g.create_time, g.update_by, g.update_time
         from sys_gossip g
-        left join sys_user u on b.user_id = u.user_Id
+        left join sys_user u on u.user_id = g.user_Id
     </sql>
 
     <select id="selectGossipList" parameterType="SysGossip" resultMap="SysGossipResult">
