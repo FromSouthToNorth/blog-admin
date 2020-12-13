@@ -16,7 +16,7 @@
           @keyup.enter.native="handleLogin"
         >
           <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
-          <svg-icon slot="suffix" :icon-class="isPasswordView ? 'is-view' : 'view'"
+          <svg-icon slot="suffix" :icon-class="isPasswordView ? 'eye-open' : 'eye'"
             class="el-input__icon input-icon password-icon" @click="passwordView" />
         </el-input>
       </el-form-item>

@@ -1,25 +1,25 @@
 <template>
   <div :class="{'has-logo':showLogo}" :style="{ backgroundColor: settings.sideTheme === 'theme-dark' ? variables.menuBg : variables.menuLightBg }">
-        <logo v-if="showLogo" :collapse="isCollapse" />
+    <logo v-if="showLogo" :collapse="isCollapse" />
     <el-scrollbar :class="settings.sideTheme" wrap-class="scrollbar-wrapper">
-            <el-menu
-                :default-active="activeMenu"
-                :collapse="isCollapse"
-                :background-color="settings.sideTheme === 'theme-dark' ? variables.menuBg : variables.menuLightBg"
-                :text-color="settings.sideTheme === 'theme-dark' ? variables.menuText : 'rgba(0,0,0,.65)'"
-                :unique-opened="true"
-                :active-text-color="settings.theme"
-                :collapse-transition="false"
-                mode="vertical"
-            >
-                <sidebar-item
-                    v-for="(route, index) in permission_routes"
-                    :key="route.path  + index"
-                    :item="route"
-                    :base-path="route.path"
-                />
-            </el-menu>
-        </el-scrollbar>
+      <el-menu
+        :default-active="activeMenu"
+        :collapse="isCollapse"
+        :background-color="settings.sideTheme === 'theme-dark' ? variables.menuBg : variables.menuLightBg"
+        :text-color="settings.sideTheme === 'theme-dark' ? variables.menuText : 'rgba(0,0,0,.65)'"
+        :unique-opened="true"
+        :active-text-color="settings.theme"
+        :collapse-transition="false"
+        mode="vertical"
+      >
+        <sidebar-item
+          v-for="(route, index) in permission_routes"
+          :key="route.path  + index"
+          :item="route"
+          :base-path="route.path"
+        />
+      </el-menu>
+    </el-scrollbar>
     </div>
 </template>
 

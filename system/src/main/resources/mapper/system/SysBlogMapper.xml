@@ -44,22 +44,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         t.type_id, t.type_name,
         tag.tag_id, tag.tag_name
         from sys_blog b
-        left join sys_type t on b.type_id = t.type_id
-        left join sys_blog_tag bt on bt.blog_id = b.blog_id
-        left join sys_tag tag on tag.tag_id = bt.tag_id
-        left join sys_user u on b.user_id = u.user_Id
+            left join sys_type t on b.type_id = t.type_id
+            left join sys_blog_tag bt on bt.blog_id = b.blog_id
+            left join sys_tag tag on tag.tag_id = bt.tag_id
+            left join sys_user u on b.user_id = u.user_Id
     </sql>
 
     <select id="selectBlogList" parameterType="SysBlog" resultMap="SysBlogResult">
         <include refid="selectSysBlogVo"/>
         where b.del_flag = '0'
-        <if test="blogTitle != null  and blogTitle != ''">
+        <if test="blogTitle != null and blogTitle != ''">
             and b.blog_title = #{searchValue}
         </if>
-        <if test="description != null  and description != ''">
+        <if test="description != null and description != ''">
             and b.description = #{searchValue}
         </if>
-        <if test="published != null  and published != ''">
+        <if test="published != null and published != ''">
             and b.published = #{published}
         </if>
         <if test="typeId != null and typeId != 0">

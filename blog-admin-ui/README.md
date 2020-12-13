@@ -3,7 +3,7 @@
 ```bash
 
 # 进入项目目录
-cd ruoyi-ui
+cd blog-admin-ui
 
 # 安装依赖
 npm install

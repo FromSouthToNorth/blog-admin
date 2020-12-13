@@ -105,6 +105,7 @@
           <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
+        <!-- 博客列表信息 -->
         <el-table v-loading="loading" :data="blogList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column label="博客编号" align="center" prop="blogId" />
@@ -279,8 +280,11 @@
       </div>
     </el-dialog>
 
+    <!-- 博客预览 -->
     <el-dialog :visible.sync="viewOpen" append-to-body>
-      <div class="blog-content" v-highlight v-html="blog"></div>
+      <div class="blog-content">
+        <div v-highlight v-html="blog"></div>
+      </div>
     </el-dialog>
 
   </div>
