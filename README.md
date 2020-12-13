@@ -1,6 +1,6 @@
 # blog-admin
 Jar方式部署
-执行命令：java –jar HyZt.jar 
+执行命令：java –jar admin.jar 
 脚本执行：hy.sh start 启动stop 停止
 
 前端部署

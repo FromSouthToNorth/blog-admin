@@ -37,6 +37,7 @@
       <el-checkbox v-model="loginForm.rememberMe" style="margin:0 0 25px 0;">记住密码</el-checkbox>
       <el-form-item style="width:100%;">
         <el-button
+          v-waves
           :loading="loading"
           size="medium"
           type="primary"
@@ -60,9 +61,13 @@
 import { getCodeImg } from "@/api/login";
 import Cookies from "js-cookie";
 import { encrypt, decrypt } from '@/utils/jsencrypt'
+import waves from '@/directive/waves/waves'
 
 export default {
   name: "Login",
+  directives: {
+    waves
+  },
   data() {
     return {
       codeUrl: "",
@@ -145,9 +150,6 @@ export default {
     /** 密码显示 */
     passwordView() {
       this.isPasswordView = !this.isPasswordView
-      if (this.isPasswordView) {
-        this.msgWarn("密码一直处于加密状态")
-      }
     }
   }
 };
@@ -205,7 +207,6 @@ export default {
     color: #FFFFFF;
   }
   .el-input__suffix .password-icon {
-    width: 18px;
     cursor: pointer;
   }
   .el-form-item__content button,
