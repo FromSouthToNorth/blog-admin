@@ -1,7 +1,9 @@
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">后台管理系统</h3>
+      <h3 class="title">
+        <mallki class-name="mallki-text" text="后台管理" />
+      </h3>
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
           <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
@@ -61,11 +63,14 @@
 import { getCodeImg } from "@/api/login";
 import Cookies from "js-cookie";
 import { encrypt, decrypt } from '@/utils/jsencrypt'
+import Mallki from '@/components/TextHoverEffect/Mallki'
 import waves from '@/directive/waves/waves'
 
 export default {
   name: "Login",
+  components: {Mallki},
   directives: {
+    Mallki,
     waves
   },
   data() {
@@ -135,15 +140,12 @@ export default {
             Cookies.remove("password");
             Cookies.remove('rememberMe');
           }
-          this.$store
-            .dispatch("Login", this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || "/" });
-            })
-            .catch(() => {
-              this.loading = false;
-              this.getCode();
-            });
+          this.$store.dispatch('Login', this.loginForm).then(() => {
+            this.$router.push({ path: this.redirect || '/' }).catch(() => {})
+          }).catch(() => {
+            this.loading = false
+            this.getCode()
+          })
         }
       });
     },
@@ -168,23 +170,6 @@ export default {
   margin: 0 auto 30px auto;
   text-align: center;
   color: #303133;
-}
-
-@media screen and (max-width: 760px) {
-  .login {
-    background-image: url("../assets/images/move-login-background.jpg");
-    .login-form {
-      .title {
-        color: #FFFFFF;
-      }
-      .el-checkbox {
-        color: #909399;
-      }
-      .el-checkbox__input.is-checked + .el-checkbox__label {
-        color: #FFFFFF;
-      }
-    }
-  }
 }
 
 .login-form {

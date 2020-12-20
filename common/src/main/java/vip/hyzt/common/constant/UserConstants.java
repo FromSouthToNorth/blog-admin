@@ -54,6 +54,9 @@ public class UserConstants
     /** Layout组件标识 */
     public final static String LAYOUT = "Layout";
 
+    /** ParentView组件标识 */
+    public final static String PARENT_VIEW = "ParentView";
+
     /** 父级标识 */
     public final static String PARENT = "0";
 
