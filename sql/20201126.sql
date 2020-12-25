@@ -100,7 +100,7 @@ insert into sys_menu values('102',  '菜单管理', '1',   '3', 'menu',       's
 insert into sys_menu values('103',  '博客管理', '1',   '4', 'blog',       'system/blog/index',        1, 0, 'C', '0', '0', 'system:blog:list',        'blog',          'admin', sysdate(), '', null, '博客管理菜单');
 insert into sys_menu values('104',  '分类管理', '1',   '5', 'type',       'system/type/index',        1, 0, 'C', '0', '0', 'system:type:list',        'type',          'admin', sysdate(), '', null, '博客类型管理菜单');
 insert into sys_menu values('105',  '标签管理', '1',   '6', 'tag',        'system/tag/index',         1, 0, 'C', '0', '0', 'system:tag:list',         'tag',           'admin', sysdate(), '', null, '博客标签管理菜单');
-insert into sys_menu values('106',  '评论管理', '1',   '7', 'comment',    'system/comment/index',     1, 0, 'C', '0', '0', 'system:comment:list',     'comment',       'admin', sysdate(), '', null, '博客评论管理菜单');
+insert into sys_menu values('106',  '评论管理', '1',   '7', 'comment',    'system/comment/index',     1, 0, 'C', '0', '1', 'system:comment:list',     'comment',       'admin', sysdate(), '', null, '博客评论管理菜单');
 insert into sys_menu values('107',  '随笔管理', '1',   '8', 'gossip',     'system/gossip/index',      1, 0, 'C', '0', '0', 'system:gossip:list',      'gossip',        'admin', sysdate(), '', null, '博客评论管理菜单');
 insert into sys_menu values('108',  '字典管理', '1',   '9', 'dict',       'system/dict/index',        1, 0, 'C', '0', '0', 'system:dict:list',        'dict',          'admin', sysdate(), '', null, '字典管理菜单');
 insert into sys_menu values('109',  '参数设置', '1',  '10', 'config',     'system/config/index',      1, 0, 'C', '0', '0', 'system:config:list',      'edit',          'admin', sysdate(), '', null, '参数设置菜单');

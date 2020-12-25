@@ -1,4 +1,4 @@
-# blog-admin
+# admin
 Jar方式部署
 执行命令：java –jar admin.jar 
 脚本执行：hy.sh start 启动stop 停止

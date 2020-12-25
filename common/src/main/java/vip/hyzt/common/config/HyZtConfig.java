@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component
-@ConfigurationProperties(prefix = "ruoyi")
+@ConfigurationProperties(prefix = "hyzt")
 public class HyZtConfig
 {
     /** 项目名称 */
