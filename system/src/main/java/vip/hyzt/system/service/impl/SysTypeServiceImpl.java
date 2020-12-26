@@ -173,7 +173,7 @@ public class SysTypeServiceImpl implements ISysTypeService
     @Override
     public int insertType(SysType type)
     {
-        if (StringUtils.isNotNull(type.getParentId()))
+        if (StringUtils.isNotNull(type.getParentId()) && type.getParentId() != 0)
         {
             SysType info = typeMapper.selectTypeById(type.getParentId());
             // 如果父节点不为正常状态,则不允许新增子节点

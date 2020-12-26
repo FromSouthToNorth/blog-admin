@@ -70,7 +70,6 @@
             v-hasPermi="['system:dept:add']"
           >新增</el-button>
           <el-button
-            v-if="scope.row.parentId != 0"
             size="mini"
             type="text"
             icon="el-icon-delete"
