@@ -554,5 +554,8 @@ export default {
 .blog-content {
   margin-left: 70px;
   margin-right: 70px;
+  img {
+    width: 100%;
+  }
 }
 </style>

@@ -9,7 +9,7 @@ import vip.hyzt.common.annotation.DataScope;
 import vip.hyzt.common.constant.UserConstants;
 import vip.hyzt.common.core.domain.entity.SysBlog;
 import vip.hyzt.common.utils.StringUtils;
-import vip.hyzt.common.utils.commonmark.CommonmarkUtils;
+import vip.hyzt.common.utils.commonmark.MarkdownUtils;
 import vip.hyzt.system.domain.SysBlogTag;
 import vip.hyzt.system.mapper.SysBlogMapper;
 import vip.hyzt.system.mapper.SysBlogTagMapper;
@@ -160,7 +160,7 @@ public class SysBlogServiceImpl implements ISysBlogService
     public String selectBlogContentById(Long blogId)
     {
         String content = blogMapper.selectBlogContentById(blogId);
-        return CommonmarkUtils.markdownFoHtml(content);
+        return MarkdownUtils.markdownToHtmlExtensions(content);
     }
 
     /**
