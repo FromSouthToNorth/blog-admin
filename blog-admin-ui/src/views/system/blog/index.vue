@@ -551,11 +551,13 @@ export default {
     max-height: 500px;
   }
 }
+
 .blog-content {
   margin-left: 70px;
   margin-right: 70px;
   img {
     width: 100%;
+    border-radius: 4px;
   }
 }
 </style>

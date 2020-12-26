@@ -26,8 +26,6 @@ import java.util.List;
 @Service
 public class SysBlogServiceImpl implements ISysBlogService
 {
-    private static final Logger log = LoggerFactory.getLogger(SysBlogServiceImpl.class);
-
     @Autowired
     private SysBlogMapper blogMapper;
 
@@ -145,8 +143,11 @@ public class SysBlogServiceImpl implements ISysBlogService
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteBlogByIds(Long[] blogIds)
     {
+        // 删除博客与标签关联
+        blogTagMapper.deleteBlogTag(blogIds);
         return blogMapper.deleteBlogByIds(blogIds);
     }
 
