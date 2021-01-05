@@ -20,7 +20,7 @@
         />
       </el-menu>
     </el-scrollbar>
-    </div>
+  </div>
 </template>
 
 <script>

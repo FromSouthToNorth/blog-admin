@@ -24,7 +24,7 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="cyan" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
@@ -32,6 +32,7 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
+          plain
           type="primary"
           icon="el-icon-plus"
           size="mini"
@@ -41,6 +42,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
+          plain
           type="success"
           icon="el-icon-edit"
           size="mini"
@@ -51,6 +53,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
+          plain
           type="danger"
           icon="el-icon-delete"
           size="mini"
@@ -61,6 +64,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
+          plain
           type="warning"
           icon="el-icon-download"
           size="mini"

@@ -68,7 +68,7 @@ import waves from '@/directive/waves/waves'
 
 export default {
   name: "Login",
-  components: {Mallki},
+  components: { Mallki },
   directives: {
     Mallki,
     waves
